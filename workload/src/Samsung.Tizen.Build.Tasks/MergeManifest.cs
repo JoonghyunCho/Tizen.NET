@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
@@ -71,11 +71,25 @@ namespace Samsung.Tizen.Build.Tasks
                     }
                     else if (subapp.Name.LocalName == "privileges")
                     {
-                        mainDoc.Root.Element(ns + "privileges").Add(subapp.Descendants(ns + "privilege"));
+                        if (mainDoc.Root.Element(ns + "privileges") == null)
+                        {
+                            mainDoc.Root.Add(subapp);
+                        }
+                        else
+                        {
+                            mainDoc.Root.Element(ns + "privileges").Add(subapp.Descendants(ns + "privilege"));
+                        }
                     }
                     else if (subapp.Name.LocalName == "account")
                     {
-                        mainDoc.Root.Element(ns + "account").Add(subapp.Descendants(ns + "account-provider"));
+                        if (mainDoc.Root.Element(ns + "account") == null)
+                        {
+                            mainDoc.Root.Add(subapp);
+                        }
+                        else
+                        {
+                            mainDoc.Root.Element(ns + "account").Add(subapp.Descendants(ns + "account-provider"));
+                        }
                     }
                     else if (subapp.Name.LocalName == "feature")
                     {
